@@ -1,0 +1,21 @@
+name: Test on Windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test on Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: choco install exiftool graphicsmagick
+      # GraphicsMagick must be manually added to the path 
+      - run: |
+          $installPath = Get-ChildItem 'C:\Program Files\GraphicsMagick*' | Select-Object -First 1 | % { $_.FullName }
+          echo "$installPath" | Out-file -Append -FilePath $env:GITHUB_PATH -Encoding utf8
+      - run: npm install
+      - run: npm test

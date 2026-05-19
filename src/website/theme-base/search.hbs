@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <title>{{gallery.title}} - Search</title>
+  {{#if themeHasLightgallery}}
+    <link rel="stylesheet" href="{{relative 'public/lightgallery/css/lightgallery.css'}}" />
+    <link rel="stylesheet" href="{{relative 'public/lightgallery/css/lg-exif.min.css'}}" />
+    <link rel="stylesheet" href="{{relative 'public/videojs/video-js.min.css'}}" />
+  {{/if}}
+  <link rel="stylesheet" href="{{relative 'public/core.css'}}" />
+  <link rel="stylesheet" href="{{relative 'public/theme.css'}}" />
+  <link rel="stylesheet" href="{{relative 'public/search.css'}}" />
+</head>
+<body>
+
+  {{!--
+    The structure below sticks to the conventional HTML5 / class-name
+    vocabulary that thumbsup themes typically style: <header>, <h1>,
+    <h2>, <nav class="breadcrumbs"> with <a class="breadcrumb-item">,
+    and <footer>. Themes whose theme.less targets these selectors will
+    style this page automatically.
+  --}}
+
+  <header>
+    <a href="{{relative gallery.home.url}}">
+      <h1>{{gallery.title}}</h1>
+    </a>
+    <h2>Search</h2>
+  </header>
+
+  <nav class="breadcrumbs">
+    <a class="breadcrumb-item" href="{{relative gallery.home.url}}">{{gallery.home.title}}</a>&nbsp;&nbsp;/&nbsp;&nbsp;Search
+  </nav>
+
+  <div class="ts-search-controls">
+    <input id="ts-search-input" type="search" placeholder="Search…" autofocus />
+    <fieldset class="ts-search-scopes">
+      <legend>Search in:</legend>
+      <label><input type="checkbox" data-scope="aiCaption" checked /> Description</label>
+      <label><input type="checkbox" data-scope="aiOcr" checked /> Text in image (OCR)</label>
+      <label><input type="checkbox" data-scope="caption" checked /> Manual caption</label>
+      <label><input type="checkbox" data-scope="filename" checked /> Filename</label>
+      <label><input type="checkbox" data-scope="path" checked /> Path</label>
+    </fieldset>
+    <div id="ts-search-count" class="ts-search-count"></div>
+  </div>
+
+  {{!--
+    Same id and structure album pages use, so theme.css styles it the
+    same way. JS clones the hidden template tile below into this <ul>.
+  --}}
+  <ul id="media"></ul>
+
+  {{!--
+    One hidden, theme-rendered thumbnail tile. JS clones the rendered
+    HTML and substitutes the sentinels with each search hit's real
+    values, so search-result tiles use the same markup as gallery
+    thumbnails — including data-* attributes lightGallery hooks into.
+  --}}
+  <template id="ts-search-tile">
+    {{#with searchTile}}
+      {{> thumbnail}}
+    {{/with}}
+  </template>
+
+  {{#if themeHasLightgallery}}
+    {{!--
+      Same scripts the album page loads, so clicking a search-result
+      tile opens the image in lightGallery just like in the gallery.
+      All four built-in thumbsup themes ship lightGallery at these
+      paths in their public/ folder. Custom themes that don't can omit
+      these — search.js detects the absence at runtime and falls back
+      to plain link-click navigation to the large image.
+    --}}
+    <script src="{{relative 'public/jquery.min.js'}}"></script>
+    <script src="{{relative 'public/videojs/video.min.js'}}"></script>
+    <script src="{{relative 'public/lightgallery/js/lightgallery-all.min.js'}}"></script>
+    <script src="{{relative 'public/lightgallery/js/lg-exif.min.js'}}"></script>
+    <script>
+      // Same options the four built-in themes pass to lightGallery.
+      window.__TS_LG_OPTIONS__ = {
+        thumbWidth: 80,
+        controls: true,
+        loop: false,
+        download: true,
+        counter: true,
+        videojs: true,
+        fullScreen: true,
+        zoom: true
+      };
+    </script>
+  {{/if}}
+
+  <script src="{{relative 'public/minisearch.min.js'}}"></script>
+  <script src="{{relative 'public/search-index.js'}}"></script>
+  <script>
+    // Path to transformers.js for semantic-query embedding. search.js
+    // dynamic-imports it on the first semantic-capable query so the
+    // ~25MB model isn't downloaded just to render the empty page.
+    // Both are set only when --ai-embed produced something to query.
+    if (window.__THUMBSUP_SEARCH_CONFIG__ && window.__THUMBSUP_SEARCH_CONFIG__.embedDim > 0) {
+      window.__TS_TRANSFORMERS_URL__ = '{{relative 'public/transformers.min.js'}}';
+      window.__TS_EMBED_MODEL__ = window.__THUMBSUP_SEARCH_CONFIG__.embedBrowserModel;
+    }
+  </script>
+  <script src="{{relative 'public/search.js'}}"></script>
+
+  {{#if gallery.footer}}
+    <footer>
+      <p>{{{gallery.footer}}}</p>
+    </footer>
+  {{/if}}
+</body>
+</html>

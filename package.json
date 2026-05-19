@@ -1,0 +1,90 @@
+{
+  "name": "thumbsup",
+  "version": "2.18.0",
+  "description": "Photo / video gallery generator",
+  "author": "Romain Prieto",
+  "license": "MIT",
+  "keywords": [
+    "photo",
+    "video",
+    "gallery",
+    "thumbnails",
+    "portfolio",
+    "website",
+    "s3",
+    "generator"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thumbsup/thumbsup.git"
+  },
+  "main": "bin/thumbsup.js",
+  "bin": {
+    "thumbsup": "./bin/thumbsup.js"
+  },
+  "files": [
+    "src",
+    "bin"
+  ],
+  "scripts": {
+    "pretest": "standard && depcheck",
+    "test": "c8 mocha"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.0.1",
+    "@thumbsup/theme-cards": "^1.3.0",
+    "@thumbsup/theme-classic": "^1.2.0",
+    "@thumbsup/theme-flow": "^1.3.0",
+    "@thumbsup/theme-mosaic": "^1.2.0",
+    "async": "^3.2.6",
+    "better-sqlite3": "^11.8.1",
+    "boxen": "^5.0.1",
+    "chalk": "^4.1.0",
+    "command-exists": "^1.2.9",
+    "debug": "^4.4.0",
+    "fs-extra": "^11.3.0",
+    "fs-readdir-recursive": "^1.1.0",
+    "handlebars": "^4.7.8",
+    "ini": "^5.0.0",
+    "JSONStream": "^1.3.5",
+    "less": "^4.2.2",
+    "listr": "^0.14.3",
+    "lodash": "^4.17.21",
+    "micromatch": "^4.0.8",
+    "minisearch": "^7.2.0",
+    "moment": "^2.30.1",
+    "readdir-enhanced": "^6.0.4",
+    "resolve-pkg": "^2.0.0",
+    "slugify": "^1.6.6",
+    "thumbsup-downsize": "^2.5.2",
+    "url-join": "^4.0.1",
+    "yargs": "^17.7.2",
+    "zen-observable": "^0.10.0"
+  },
+  "devDependencies": {
+    "c8": "^10.1.3",
+    "depcheck": "^1.4.7",
+    "glob": "^11.0.1",
+    "mocha": "^11.1.0",
+    "mock-fs": "^5.5.0",
+    "mock-spawn": "^0.2.6",
+    "should": "^13.2.3",
+    "sinon": "^19.0.2",
+    "standard": "^17.1.2",
+    "stream-mock": "^2.0.5",
+    "tmp": "^0.2.3",
+    "yaml": "^2.7.0"
+  },
+  "standard": {
+    "env": [
+      "mocha"
+    ],
+    "ignore": [
+      "themes/**/public"
+    ],
+    "globals": [
+      "itLinux",
+      "itWindows"
+    ]
+  }
+}

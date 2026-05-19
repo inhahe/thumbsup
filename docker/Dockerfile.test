@@ -1,0 +1,21 @@
+ARG NODE_VERSION=20
+
+# Node.js + build dependencies + runtime dependencies
+FROM ghcr.io/thumbsup/build:node-${NODE_VERSION}
+WORKDIR /app
+
+# Switch to a non-root user
+# So we can test edge-cases around file permissions
+RUN adduser -D tester
+RUN chown -R tester:tester /app
+USER tester
+
+# Install and cache dependencies
+COPY --chown=tester package*.json /app
+RUN npm ci
+
+# Copy the entire source code
+COPY --chown=tester . /app
+
+# Run the tests
+RUN npm test

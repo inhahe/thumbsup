@@ -1,0 +1,6 @@
+ignores:
+  # dynamically loaded themes
+  - "@thumbsup/theme-cards"
+  - "@thumbsup/theme-classic"
+  - "@thumbsup/theme-mosaic"
+  - "@thumbsup/theme-flow"

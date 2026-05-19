@@ -1,0 +1,26 @@
+# Don't ship development state — the image installs everything fresh.
+.git
+.gitignore
+.github
+coverage
+
+# Local Python venv + npm install (rebuilt inside container)
+.venv
+node_modules
+
+# Test outputs and scratch
+tmp
+test
+test-fixtures
+docs
+
+# Editor / OS noise
+.vscode
+.idea
+.DS_Store
+*.swp
+*~
+
+# Don't bundle on-disk caches from local runs
+**/thumbsup.db
+**/thumbsup.log
