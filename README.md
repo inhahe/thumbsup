@@ -26,6 +26,7 @@ Turn any folder with photos &amp; videos into a web gallery.
 - thumbnails & multiple resolutions for fast previews
 - mobile friendly website with customisable themes
 - only rebuilds changed files: it's fast!
+- detects moved/reorganised files and directories — thumbnails and AI caches follow the move, no re-indexing needed
 - uses relative paths so you can deploy the pages anywhere
 - works great with Amazon S3 for static hosting
 
