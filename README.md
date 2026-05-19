@@ -78,6 +78,42 @@ And optionally:
 - [dcraw](https://www.cybercom.net/~dcoffin/dcraw/) to process RAW photos: `brew install dcraw`
 - [ImageMagick](https://imagemagick.org/) for HEIC support (needs to be compiled with `--with-heic`)
 
+### AI and search dependencies
+
+The AI and search features require a Python 3 venv. Create one and install the packages for the features you need:
+
+```bash
+python3 -m venv .venv
+
+# Install torch + torchvision from PyTorch's own index so easyocr's
+# torchvision matches torch's ABI.  For GPU acceleration, replace the
+# CPU index URL with the matching CUDA one from
+# https://pytorch.org/get-started/locally/ (e.g. cu126 for NVIDIA).
+.venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision
+
+# Core AI (captions + OCR + semantic embeddings)
+.venv/bin/pip install transformers pillow easyocr sentence-transformers
+
+# Server-mode search (optional — only needed with --search-mode server)
+.venv/bin/pip install whoosh
+```
+
+Then pass `--ai-python .venv/bin/python` (and `--search-python .venv/bin/python` for server-mode search) so thumbsup uses the venv.
+
+| Feature | Flag | Python packages |
+|---|---|---|
+| AI captions | `--ai-describe` | `torch`, `torchvision`, `transformers`, `pillow` |
+| OCR (EasyOCR, default) | `--ai-ocr` | `easyocr` |
+| OCR (Tesseract) | `--ai-ocr --ai-ocr-engine tesseract` | `pytesseract` + system `tesseract-ocr` |
+| Semantic search | `--ai-embed` | `sentence-transformers` |
+| Server-mode search | `--search-mode server` | `whoosh` |
+
+> **Gotcha:** `pip install easyocr` on its own pulls a torchvision build
+> from PyPI that may not match your torch ABI, producing
+> `register_fake` / `_dispatch_has_kernel_for_dispatch_key` errors at
+> import time. Always install torch and torchvision together from the
+> same PyTorch index before installing easyocr.
+
 You can run thumbsup as a Docker container ([ghcr.io/thumbsup/thumbsup](https://github.com/thumbsup/thumbsup/pkgs/container/thumbsup)) which pre-packages all the dependencies above. Read the [thumbsup on Docker](https://thumbsup.github.io/docs/2-installation/docker/) documentation for more detail.
 
 ```bash
