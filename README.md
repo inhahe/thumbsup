@@ -86,10 +86,15 @@ The AI and search features require a Python 3 venv. Create one and install the p
 python3 -m venv .venv
 
 # Install torch + torchvision from PyTorch's own index so easyocr's
-# torchvision matches torch's ABI.  For GPU acceleration, replace the
-# CPU index URL with the matching CUDA one from
-# https://pytorch.org/get-started/locally/ (e.g. cu126 for NVIDIA).
-.venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision
+# torchvision matches torch's ABI.
+#
+# NVIDIA GPU (recommended — ~10-30x faster than CPU):
+# Pick the CUDA index URL that matches your driver from
+# https://pytorch.org/get-started/locally/ (e.g. cu126 for CUDA 12.6).
+.venv/bin/pip install --index-url https://download.pytorch.org/whl/cu126 torch torchvision
+#
+# CPU only (no NVIDIA GPU):
+# .venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision
 
 # Core AI (captions + OCR + semantic embeddings)
 .venv/bin/pip install transformers pillow easyocr sentence-transformers
