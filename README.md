@@ -83,7 +83,7 @@ And optionally:
 The AI and search features require Python 3 and, for GPU acceleration, an NVIDIA GPU with a CUDA-compatible driver:
 
 - **Python 3.12+**
-- **NVIDIA driver + CUDA toolkit** (for GPU — strongly recommended, ~10-30x faster). On Linux/WSL2, install [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) for Docker, or just the [NVIDIA driver](https://www.nvidia.com/en-us/drivers/) for bare-metal. On Windows, the driver alone is enough. Check your CUDA version with `nvidia-smi` and pick the matching PyTorch index URL below.
+- **[NVIDIA driver](https://www.nvidia.com/en-us/drivers/)** (for GPU — strongly recommended, ~10-30x faster). The CUDA runtime is bundled inside PyTorch, so you only need the driver itself. Run `nvidia-smi` to check your CUDA version and pick the matching PyTorch index URL below.
 
 Create a venv and install the packages for the features you need:
 
