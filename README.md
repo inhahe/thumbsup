@@ -85,108 +85,123 @@ docker run -v `pwd`:/work ghcr.io/thumbsup/thumbsup [...]
 
 ## Command line arguments
 
-This reflects the CLI for the latest code on `master`.
-For the latest published version please refer to the [docs on the website](https://thumbsup.github.io).
-
-<!--STARTCLI-->
+```
+thumbsup [required] [options]
+thumbsup --config config.json
 ```
 
-Usages:
-  thumbsup [required] [options]
-  thumbsup --config config.json
+### Required
 
+| Flag | Description | Type |
+|---|---|---|
+| `--input` | Path to the folder with all photos/videos | string, required |
+| `--output` | Output path for the static website | string, required |
 
-Required:
-  --input   Path to the folder with all photos/videos  [string] [required]
-  --output  Output path for the static website  [string] [required]
+### Input options
 
-Input options:
-  --scan-mode           How files are indexed  [choices: "full", "partial", "incremental"] [default: "full"]
-  --include-photos      Include photos in the gallery  [boolean] [default: true]
-  --include-videos      Include videos in the gallery  [boolean] [default: true]
-  --include-raw-photos  Include raw photos in the gallery  [boolean] [default: false]
-  --include             Glob pattern of files to include  [array]
-  --exclude             Glob pattern of files to exclude  [array]
+| Flag | Description | Default |
+|---|---|---|
+| `--scan-mode` | How files are indexed (`full`, `partial`, `incremental`) | `full` |
+| `--include-photos` | Include photos in the gallery | `true` |
+| `--include-videos` | Include videos in the gallery | `true` |
+| `--include-raw-photos` | Include raw photos in the gallery | `false` |
+| `--include` | Glob pattern of files to include | |
+| `--exclude` | Glob pattern of files to exclude | |
 
-Output options:
-  --thumb-size          Pixel size of the square thumbnails  [number] [default: 120]
-  --small-size          Pixel height of the small photos  [number] [default: 300]
-  --large-size          Pixel height of the fullscreen photos  [number] [default: 1000]
-  --photo-quality       Quality of the resized/converted photos  [number] [default: 90]
-  --video-quality       Quality of the converted video (percent)  [number] [default: 75]
-  --video-bitrate       Bitrate of the converted videos (e.g. 120k)  [string] [default: null]
-  --video-format        Video output format  [choices: "mp4", "webm"] [default: "mp4"]
-  --video-hwaccel       Use hardware acceleration (requires bitrate)  [choices: "none", "vaapi"] [default: "none"]
-  --video-stills        Where the video still frame is taken  [choices: "seek", "middle"] [default: "seek"]
-  --video-stills-seek   Number of seconds where the still frame is taken  [number] [default: 1]
-  --photo-preview       How lightbox photos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
-  --video-preview       How lightbox videos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
-  --photo-download      How downloadable photos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
-  --video-download      How downloadable videos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
-  --link-prefix         Path or URL prefix for "linked" photos and videos  [string]
-  --cleanup             Remove any output file that's no longer needed  [boolean] [default: false]
-  --concurrency         Number of parallel parsing/processing operations  [number] [default: 2]
-  --output-structure    File and folder structure for output media  [choices: "folders", "suffix"] [default: "folders"]
-  --gm-args             Custom image processing arguments for GraphicsMagick  [array]
-  --watermark           Path to a transparent PNG to be overlaid on all images  [string]
-  --watermark-position  Position of the watermark  [choices: "Repeat", "Center", "NorthWest", "North", "NorthEast", "West", "East", "SouthWest", "South", "SouthEast"]
+### Output options
 
-Album options:
-  --albums-from            How files are grouped into albums  [array] [default: ["%path"]]
-  --sort-albums-by         How to sort albums  [choices: "title", "start-date", "end-date"] [default: "start-date"]
-  --sort-albums-direction  Album sorting direction  [choices: "asc", "desc"] [default: "asc"]
-  --sort-media-by          How to sort photos and videos  [choices: "filename", "date"] [default: "date"]
-  --sort-media-direction   Media sorting direction  [choices: "asc", "desc"] [default: "asc"]
-  --home-album-name        Name of the top-level album  [string] [default: "Home"]
-  --album-page-size        Max number of files displayed on a page  [number] [default: null]
-  --album-zip-files        Create a ZIP file per album  [boolean] [default: false]
-  --include-keywords       Keywords to include in %keywords  [array]
-  --exclude-keywords       Keywords to exclude from %keywords  [array]
-  --include-people         Names to include in %people  [array]
-  --exclude-people         Names to exclude from %people  [array]
-  --album-previews         How previews are selected  [choices: "first", "spread", "random"] [default: "first"]
+| Flag | Description | Default |
+|---|---|---|
+| `--thumb-size` | Pixel size of the square thumbnails | `120` |
+| `--small-size` | Pixel height of the small photos | `300` |
+| `--large-size` | Pixel height of the fullscreen photos | `1000` |
+| `--photo-quality` | Quality of the resized/converted photos | `90` |
+| `--video-quality` | Quality of the converted video (percent) | `75` |
+| `--video-bitrate` | Bitrate of the converted videos (e.g. `120k`) | |
+| `--video-format` | Video output format (`mp4`, `webm`) | `mp4` |
+| `--video-hwaccel` | Use hardware acceleration, requires `--video-bitrate` (`none`, `vaapi`) | `none` |
+| `--video-stills` | Where the video still frame is taken (`seek`, `middle`) | `seek` |
+| `--video-stills-seek` | Number of seconds where the still frame is taken | `1` |
+| `--photo-preview` | How lightbox photos are generated (`resize`, `copy`, `symlink`, `link`) | `resize` |
+| `--video-preview` | How lightbox videos are generated (`resize`, `copy`, `symlink`, `link`) | `resize` |
+| `--photo-download` | How downloadable photos are generated (`resize`, `copy`, `symlink`, `link`) | `resize` |
+| `--video-download` | How downloadable videos are generated (`resize`, `copy`, `symlink`, `link`) | `resize` |
+| `--link-prefix` | Path or URL prefix for "linked" photos and videos | |
+| `--cleanup` | Remove any output file that's no longer needed | `false` |
+| `--concurrency` | Number of parallel parsing/processing operations | CPU count |
+| `--output-structure` | File and folder structure for output media (`folders`, `suffix`) | `folders` |
+| `--gm-args` | Custom image processing arguments for GraphicsMagick | |
+| `--watermark` | Path to a transparent PNG to be overlaid on all images | |
+| `--watermark-position` | Position of the watermark (`Repeat`, `Center`, `NorthWest`, `North`, `NorthEast`, `West`, `East`, `SouthWest`, `South`, `SouthEast`) | |
 
-Website options:
-  --index                 Filename of the home page  [string] [default: "index.html"]
-  --albums-output-folder  Output subfolder for HTML albums (default: website root)  [string] [default: "."]
-  --theme                 Name of a built-in gallery theme  [choices: "classic", "cards", "mosaic", "flow"] [default: "classic"]
-  --theme-path            Path to a custom theme  [string]
-  --theme-style           Path to a custom LESS/CSS file for additional styles  [string]
-  --theme-settings        Path to a JSON file with theme settings  [string]
-  --title                 Website title  [string] [default: "Photo album"]
-  --footer                Text or HTML footer  [string] [default: null]
-  --google-analytics      Code for Google Analytics tracking  [string]
-  --embed-exif            Embed the exif metadata for each image into the gallery page  [boolean] [default: false]
-  --locale                Locale for regional settings like dates  [string] [default: "en"]
-  --seo-location          Location where the site will be hosted. If provided, sitemap.xml and robots.txt will be created.  [string] [default: null]
+### Album options
 
-Misc options:
-  --config         JSON config file (one key per argument)  [string]
-  --database-file  Path to the database file  [string]
-  --log-file       Path to the log file  [string]
-  --log            Print a detailed text log  [choices: "default", "info", "debug", "trace"] [default: "default"]
-  --dry-run        Update the index, but don't create the media files / website  [boolean] [default: false]
+| Flag | Description | Default |
+|---|---|---|
+| `--albums-from` | How files are grouped into albums | `["%path"]` |
+| `--sort-albums-by` | How to sort albums (`title`, `start-date`, `end-date`) | `start-date` |
+| `--sort-albums-direction` | Album sorting direction (`asc`, `desc`) | `asc` |
+| `--sort-media-by` | How to sort photos and videos (`filename`, `date`) | `date` |
+| `--sort-media-direction` | Media sorting direction (`asc`, `desc`) | `asc` |
+| `--home-album-name` | Name of the top-level album | `Home` |
+| `--album-page-size` | Max number of files displayed on a page | |
+| `--album-zip-files` | Create a ZIP file per album | `false` |
+| `--include-keywords` | Keywords to include in `%keywords` | |
+| `--exclude-keywords` | Keywords to exclude from `%keywords` | |
+| `--include-people` | Names to include in `%people` | |
+| `--exclude-people` | Names to exclude from `%people` | |
+| `--album-previews` | How previews are selected (`first`, `spread`, `random`) | `first` |
 
-Deprecated:
-  --original-photos       Copy and allow download of full-size photos (use --photo-download=copy)  [boolean]
-  --original-videos       Copy and allow download of full-size videos (use --video-download=copy)  [boolean]
-  --albums-date-format    How albums are named in <date> mode [moment.js pattern]
-  --css                   Path to a custom provided CSS/LESS file for styling  [string]
-  --download-photos       Target of the photo download links  [choices: "large", "copy", "symlink", "link"]
-  --download-videos       Target of the video download links  [choices: "large", "copy", "symlink", "link"]
-  --download-link-prefix  Path or URL prefix for linked downloads  [string]
-  --usage-stats           Enable anonymous usage statistics  [boolean]
+### Website options
 
-Options:
-  --version  Show version number  [boolean]
-  --help     Show help  [boolean]
+| Flag | Description | Default |
+|---|---|---|
+| `--index` | Filename of the home page | `index.html` |
+| `--albums-output-folder` | Output subfolder for HTML albums (default: website root) | `.` |
+| `--theme` | Name of a built-in gallery theme (`classic`, `cards`, `mosaic`, `flow`) | `classic` |
+| `--theme-path` | Path to a custom theme | |
+| `--theme-style` | Path to a custom LESS/CSS file for additional styles | |
+| `--theme-settings` | Path to a JSON file with theme settings | |
+| `--title` | Website title | `Photo album` |
+| `--footer` | Text or HTML footer | |
+| `--google-analytics` | Code for Google Analytics tracking | |
+| `--embed-exif` | Embed the EXIF metadata for each image into the gallery page | `false` |
+| `--locale` | Locale for regional settings like dates | `en` |
+| `--seo-location` | Location where the site will be hosted (enables `sitemap.xml` and `robots.txt`) | |
 
+### AI options
 
- The optional JSON config should contain a single object with one key
- per argument, not including the leading "--". For example:
- { "sort-albums-by": "start-date" }
-```
-<!--ENDCLI-->
+| Flag | Description | Default |
+|---|---|---|
+| `--ai-describe` | Generate a BLIP caption for every image (local, no network) | `false` |
+| `--ai-ocr` | Run OCR on every image and index the text for search | `false` |
+| `--ai-python` | Python executable used to run `scripts/ai_describe.py` | `python3` |
+| `--ai-blip-model` | HuggingFace model id for BLIP captioning | `Salesforce/blip-image-captioning-base` |
+| `--ai-ocr-engine` | OCR backend (`easyocr`, `tesseract`). EasyOCR is GPU-capable (CUDA when available, CPU fallback). Tesseract is CPU-only with a lighter Python install. | `easyocr` |
+| `--ai-embed` | Generate sentence-transformer embeddings of (caption + OCR) and ship them with the search index. Adds semantic search on top of BM25 keyword search, blended via Reciprocal Rank Fusion. | `false` |
+| `--ai-embed-model` | Sentence-transformer model id. Must have a Xenova ONNX export available for client-mode browser embedding. | `sentence-transformers/all-MiniLM-L6-v2` |
+
+### Search options
+
+| Flag | Description | Default |
+|---|---|---|
+| `--search-mode` | How the search page queries its index. `client` ships a prebuilt MiniSearch index to the browser (fully static). `server` builds a Whoosh index and needs a running Python server. | `client` |
+| `--search-python` | Python executable used to build the Whoosh index (server mode only) | `python3` |
+| `--search-build-procs` | Whoosh: number of parallel indexing processes (server mode only) | `1` |
+| `--search-build-multisegment` | Whoosh: skip segment merge on commit. Faster builds for huge galleries; slightly slower searches until you optimize. | `false` |
+
+### Misc options
+
+| Flag | Description | Default |
+|---|---|---|
+| `--config` | JSON config file (one key per argument) | |
+| `--database-file` | Path to the database file | |
+| `--log-file` | Path to the log file | |
+| `--log` | Print a detailed text log (`default`, `info`, `debug`, `trace`) | `default` |
+| `--dry-run` | Update the index, but don't create the media files / website | `false` |
+
+The optional JSON config should contain a single object with one key per argument,
+not including the leading `--`. For example: `{ "sort-albums-by": "start-date" }`
 
 ## Contributing
 
