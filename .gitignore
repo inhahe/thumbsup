@@ -7,3 +7,14 @@ test-snapshot/output-expected/metadata.json
 .DS_Store
 thumbsup.db
 tmp*
+
+# Local-only. We publish straight from this directory now instead of copying
+# a filtered subset into D:\github, so these are excluded here instead.
+.venv/
+models/
+.claude/
+.orchestrator_history
+copy-to-github.bat
+*.log
+*.txt
+!requirements.txt

@@ -68,7 +68,11 @@ See a sample gallery online at https://thumbsup.github.io/demos/themes/mosaic/
 ## Requirements
 
 Thumbsup requires the following dependencies:
-- [Node.js](http://nodejs.org/): `brew install node`
+- [Node.js](http://nodejs.org/) **22 LTS** — native modules (`better-sqlite3`) don't support Node 24+ yet. Use [nvm](https://github.com/nvm-sh/nvm) to install the right version:
+  ```bash
+  nvm install 22
+  nvm use 22
+  ```
 - [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/): `brew install exiftool`
 - [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
 
@@ -96,7 +100,9 @@ python3 -m venv .venv
 # NVIDIA GPU (recommended — ~10-30x faster than CPU):
 # Pick the CUDA index URL that matches your driver from
 # https://pytorch.org/get-started/locally/ (e.g. cu126 for CUDA 12.6).
-.venv/bin/pip install --index-url https://download.pytorch.org/whl/cu126 torch torchvision
+
+.venv/bin/pip3 install --index-url https://download.pytorch.org/whl/cu132 torch torchvision
+
 #
 # CPU only (no NVIDIA GPU):
 # .venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision
